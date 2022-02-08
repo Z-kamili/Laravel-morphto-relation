@@ -8,27 +8,42 @@
     <title>Document</title>
 </head>
 <body>
+
+@if (count($errors) > 0)
+  <div class="alert alert-danger">
+      <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>خطا</strong>
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+@endif
+
     <form method="POST"  action="{{ route('upload.store') }}" enctype="multipart/form-data"  class="w-full max-w-sm mt-20">
         @csrf
         <div class="md:flex md:items-center mb-6">
-          <div class="md:w-1/3">
+          {{-- <div class="md:w-1/3">
             <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
              Name
             </label>
-          </div>
-          <div class="md:w-2/3">
+          </div> --}}
+          {{-- <div class="md:w-2/3">
             <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" name="name" value="Jane Doe">
-          </div>
+          </div> --}}
         </div>
         <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
+            {{-- <div class="md:w-1/3">
               <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
                Email
               </label>
-            </div>
-            <div class="md:w-2/3">
-              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="email" name="email">
-            </div>
+            </div> --}}
+            {{-- <div class="md:w-2/3">
+              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" name="email">
+            </div> --}}
           </div>
         <div class="md:flex md:items-center mb-6">
           <div class="md:w-1/3">
@@ -41,15 +56,15 @@
             <img style="border-radius:50%" width="150px" height="150px" id="output"/>
           </div>
         </div>
-        <div class="md:flex md:items-center mb-6">
+        {{-- <div class="md:flex md:items-center mb-6">
             <div class="md:w-1/3">
               <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
                 password
               </label>
-            </div>
-            <div class="md:w-2/3">
+            </div> --}}
+            {{-- <div class="md:w-2/3">
               <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="password"  name="password" id="inline-password"  required placeholder="****************">
-            </div>
+            </div> --}}
           </div>
         <div class="md:flex md:items-center mb-6">
           <div class="md:w-1/3"></div>

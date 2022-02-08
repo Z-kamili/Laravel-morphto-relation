@@ -9,9 +9,15 @@ class Image extends Model
 {
     use HasFactory;
 
-    public function imageable(){
+    // public function imageable(){
 
-        return $this->morphTo();
+    //     return $this->morphTo();
+
+    // }
+
+    public function User(){
+
+        return $this->belongsTo('App\Models\Image','user_id');
 
     }
 }

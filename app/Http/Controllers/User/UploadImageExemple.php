@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateValidationRequest;
 use App\Models\Image;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,8 +21,8 @@ class UploadImageExemple extends Controller
      */
     public function index()
     {
-        $Students = Student::get()->all();
-        return view('show',compact('Students'));
+        $Students = Student::where('user_id',Auth::user()->id)->with('user')->get()->all();
+        $User = User::where('id',Auth::user()->id)->with('images')->get()->first();
     }
 
     /**
@@ -38,31 +41,37 @@ class UploadImageExemple extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateValidationRequest $request)
     {
-         DB::beginTransaction();
+        
+        DB::beginTransaction();
+
         try{
-         $i = 1;
+         $i = 3;
          $Student = new Student();
-         $Student->name = $request->name;
-         $Student->email = $request->email;
-         $Student->password = Hash::make($request->password);
+        //  $Student->name = $request->name;
+        //  $Student->email = $request->email;
+        //  $Student->password = Hash::make($request->password);
+         $Student->user_id = Auth::user()->id;
          $Student->save();
          $photo = $request->file('file');
-        // $name = \Str::slug($request->input('name'));
-            $filename = $i . '.' . $photo->getClientOriginalExtension();
+         $filename = $i . '.' . $photo->getClientOriginalExtension();
         //insert Image 
-            $Image = new Image();
-            $Image->filename = $filename;
-            $Image->imageable_id = $Student->id;
-            $Image->imageable_type = 'App\Models\Student';
-            $Image->save();
-            $request->file('file')->storeAs('Student', $filename,'upload_file');
-            DB::commit();
-            return redirect()->back();
+         $Image = new Image();
+         $Image->filename = $filename;
+         $Image->user_id = Auth::user()->id;
+         $Image->save();
+         $request->file('file')->storeAs('Student', $filename,'upload_file');
+         $filename = 2 . '.' . $photo->getClientOriginalExtension();
+         $Image = new Image();
+         $Image->filename = $filename;
+         $Image->user_id = Auth::user()->id;
+         $Image->save();
+         $request->file('file')->storeAs('Student', $filename,'upload_file');
+         DB::commit();
+         return redirect()->back();
         }catch(\Exception $e){
             DB::rollback();
-            dd($e);
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }

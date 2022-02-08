@@ -40,4 +40,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function image()
+    // {
+    //     return $this->morphOne('App\Models\Image', 'imageable');
+    // }
+
+      public function images(){
+
+        return $this->hasMany('App\Models\Image','user_id');
+
+      }
+
+    public function Student(){
+
+        return $this->hasOne('\App\Models\Student','user_id');
+
+    }
 }
